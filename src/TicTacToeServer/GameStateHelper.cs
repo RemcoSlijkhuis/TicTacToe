@@ -30,11 +30,15 @@ namespace TicTacToeServer
             {
                 ServerGameState oldGameState;
                 Games.TryRemove(existingPlayer, out oldGameState);
+
+                Logger.Current.Info("New reaplcing player: {0}. He's taking on the boss... again", name);
+            }
+            else
+            {
+                Logger.Current.Info("New player online: {0}. He's taking on the boss :)", name);
             }
                 
             Games.TryAdd(playerId, new ServerGameState { Name = name });
-
-            Logger.Current.Info("New player online: {0}. He's taking on the boss :)", name);
         }
 
         public static void AddRequest()

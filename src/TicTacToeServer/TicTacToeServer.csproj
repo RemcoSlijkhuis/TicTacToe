@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="ClientPlayer.cs" />
     <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\QuineController.cs" />
     <Compile Include="Controllers\StatsController.cs" />
     <Compile Include="GameStateHelper.cs" />
     <Compile Include="Logger.cs" />
