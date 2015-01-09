@@ -28,6 +28,13 @@ namespace TicTacToeServer.Controllers
         [Route("register")]
         public HttpResponseMessage Register([FromUri]string name)
         {
+            if(string.IsNullOrEmpty(name))
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("Name cannot be empty", Encoding.UTF8, "text/plain")
+                };
+
             var playerId = Guid.NewGuid();
 
             while (GameStateHelper.Games.ContainsKey(playerId))
