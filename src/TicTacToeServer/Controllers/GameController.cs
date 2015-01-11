@@ -123,7 +123,7 @@ namespace TicTacToeServer.Controllers
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(playerState.CurrentGame.GameResult.ToString(CultureInfo.InvariantCulture), Encoding.UTF8, "text/plain")
+                    Content = new StringContent(playerState.CurrentGame.ToString() + playerState.CurrentGame.GameResult.ToString(CultureInfo.InvariantCulture), Encoding.UTF8, "text/plain")
                 };
             }
             catch (Exception ex)

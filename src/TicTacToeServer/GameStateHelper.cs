@@ -31,7 +31,7 @@ namespace TicTacToeServer
                 ServerGameState oldGameState;
                 Games.TryRemove(existingPlayer, out oldGameState);
 
-                Logger.Current.Info("New reaplcing player: {0}. He's taking on the boss... again", name);
+                Logger.Current.Info("New replacing player: {0}. He's taking on the boss... again", name);
             }
             else
             {
