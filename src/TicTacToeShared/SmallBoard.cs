@@ -115,7 +115,7 @@ namespace TicTacToeShared
             }
 
             //is Diagonal ?
-            if ((column + row) == 2)
+            if ((column + row) % 2 == 0)
             {
                 if ((cells[0, 0].Owner == player) && (cells[1, 1].Owner == player) && (cells[2, 2].Owner == player))
                 {
