@@ -20,7 +20,7 @@ namespace TicTacToeSampleHttpClient
             var player2 = new GamePlayerRandom(ApiUrl, "Bassie");
             var player3 = new GamePlayerRandom(ApiUrl, "B100");
             var player4 = new GamePlayerFirstChoice(ApiUrl, "Vlugge Japie");
-            var player5 = new GamePlayerWinMoves(ApiUrl, "Argibald Chagrijn");
+            var player5 = new GamePlayerWinMovesFirst(ApiUrl, "Argibald Chagrijn");
 
             var cancellationTokenSource = new CancellationTokenSource();
             var games = new List<Task>

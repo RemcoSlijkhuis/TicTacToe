@@ -6,14 +6,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using TicTacToeSampleHttpClient.Extensions;
+using TicTacToeSampleHttpClient.Model;
 
 namespace TicTacToeSampleHttpClient.Engines
 {
-    public class GamePlayerFirstChoice
+    public class GamePlayerWinMovesFirst
     {
         private readonly string apiUrl;
+        private readonly Random random = new Random();
 
-        public GamePlayerFirstChoice(string apiUrl, string name)
+        public GamePlayerWinMovesFirst(string apiUrl, string name)
         {
             this.apiUrl = apiUrl;
             Name = name;
@@ -50,7 +52,11 @@ namespace TicTacToeSampleHttpClient.Engines
                             return;
 
                         var availableMovesString = httpClient.DownloadString(apiUrl + "getAvailableMoves?playerId=" + HttpUtility.UrlEncode(playerId.ToString())).ToCharArray();
+                        var availableMoveCount = availableMovesString.Count(x => x == 'Y');
                         var availableMoves = new List<Tuple<int, int, int, int>>();
+
+                        var totalIterations = random.Next(0, availableMoveCount - 1);
+                        var currentMove = new Tuple<int, int, int, int>(0, 0, 0, 0);
                         var availableMovesSlices = availableMovesString.ToChunks(9).ToList();
 
                         for (var sbcolumn = 0; sbcolumn < 3; sbcolumn++)
@@ -77,8 +83,23 @@ namespace TicTacToeSampleHttpClient.Engines
                             }
                         }
 
-                        // Your implemention here
-                        var currentMove = availableMoves[0];
+                        foreach (var availableMove in availableMoves)
+                        {
+                            var gameClone = Game.FromState(game);
+                            var board = gameClone.SmallBoards[availableMove.Item1, availableMove.Item2];
+
+                            board.SetOwner(availableMove.Item3, availableMove.Item4, 2);
+
+                            if (!board.IsWinner(2)) continue;
+
+                            currentMove = availableMove;
+                            break;
+                        }
+
+                        if (currentMove.Equals(new Tuple<int, int, int, int>(0, 0, 0, 0)))
+                        {
+                            currentMove = availableMoves[totalIterations];
+                        }
 
                         game = httpClient.DownloadString(apiUrl + string.Format("makeMove?boardColumn={0}&boardRow={1}&cellColumn={2}&cellRow={3}&playerId={4}",
                             currentMove.Item1, currentMove.Item2, currentMove.Item3, currentMove.Item4, playerId.ToString()));

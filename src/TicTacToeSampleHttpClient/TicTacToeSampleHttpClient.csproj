@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Engines\GamePlayerFirstChoice.cs" />
     <Compile Include="Engines\GamePlayerRandom.cs" />
+    <Compile Include="Engines\GamePlayerWinMovesFirst.cs" />
     <Compile Include="Engines\GamePlayerWinMoves.cs" />
     <Compile Include="Model\Cell.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />

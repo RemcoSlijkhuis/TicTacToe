@@ -98,7 +98,16 @@ namespace TicTacToeSampleHttpClient.Engines
 
                         if (currentMove.Equals(new Tuple<int, int, int, int>(0, 0, 0, 0)))
                         {
-                            currentMove = availableMoves[totalIterations];
+                            if (game.ToCharArray().Select(x => x - '0').All(x => x == 0))
+                            {
+                                // First move
+                                currentMove = availableMoves[0];
+                            }
+                            else
+                            {
+                                currentMove = availableMoves[totalIterations];
+                            }
+                            
                         }
 
                         game = httpClient.DownloadString(apiUrl + string.Format("makeMove?boardColumn={0}&boardRow={1}&cellColumn={2}&cellRow={3}&playerId={4}",
