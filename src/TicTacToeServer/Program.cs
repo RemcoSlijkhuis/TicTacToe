@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.ExceptionHandling;
 using Microsoft.Owin.Hosting;
 using Owin;
@@ -38,6 +39,7 @@ namespace TicTacToeServer
                 var config = new HttpConfiguration();
                 
                 config.MapHttpAttributeRoutes();
+                config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
                 config.Services.Add(typeof(IExceptionLogger), new WebApiExceptionLogger());
 
                 config.Routes.MapHttpRoute(
