@@ -136,11 +136,11 @@ namespace TicTacToeShared
             CurrentPlayerIndex = CurrentPlayerIndex == 1 ? 2 : 1;
         }
 
-        public void PlayOneMove()
+        public Move PlayOneMove()
         {
             //don't play if game is finished 
             if (GameResult != 0)
-                return;
+                return null;
 
             //make a cloned version of the board, to give to the IPlayerEngine
             var state = Board.Clone();
@@ -155,6 +155,8 @@ namespace TicTacToeShared
                 player1.AfterGame(1, Board, Moves);
                 player2.AfterGame(2, Board, Moves);
             }
+
+            return move;
         }
 
         public override string ToString()

@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Linq;
 
-namespace TicTacToeShared
+namespace TicTacToeSampleHttpClient.Model
 {
     /// <summary>
     /// Represents a move on the board.
@@ -17,12 +18,17 @@ namespace TicTacToeShared
         //Just a handy tool to store information in moves 
         public Object Tag;
 
-        public Move(int boardColumn, int boardRow, int cellColumn, int cellRow)
+        public Move(string state)
         {
-            BoardColumn = boardColumn;
-            BoardRow = boardRow;
-            CellColumn = cellColumn;
-            CellRow = cellRow;
+            if(state.Length != 4)
+                throw new ArgumentException("state is not correct (should be 4 chars)", state);
+
+            var moveState = state.ToCharArray().Select(x => (x - '0')).ToList();
+
+            BoardColumn = moveState[0];
+            BoardRow = moveState[1];
+            CellColumn = moveState[2];
+            CellRow = moveState[3];
         }
 
         public bool ConstraintsAreValid()

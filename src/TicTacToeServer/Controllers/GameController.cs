@@ -67,13 +67,25 @@ namespace TicTacToeServer.Controllers
 
                 playerState.StartNewGame();
 
-                if (playerState.CurrentGame.CurrentPlayerIndex == 1) // It's me :)
-                    playerState.CurrentGame.PlayOneMove();
+                var returnState = "";
+
+                if (playerState.CurrentGame.CurrentPlayerIndex == 1)
+                {
+                    var move = playerState.CurrentGame.PlayOneMove();
+
+                    returnState = playerState.CurrentGame.ToString();
+                    returnState += "," + move;
+                }
+                else
+                {
+                    returnState = playerState.CurrentGame.ToString();
+                }
+                    
 
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(playerState.CurrentGame.ToString(), Encoding.UTF8, "text/plain")
+                    Content = new StringContent(returnState, Encoding.UTF8, "text/plain")
                 };
             }
             catch (Exception ex)
@@ -108,22 +120,32 @@ namespace TicTacToeServer.Controllers
                 playerState.Player2.PrepareNextMove(move);
                 playerState.CurrentGame.PlayOneMove();
 
-                if (playerState.CurrentGame.GameResult == 0)
-                    playerState.CurrentGame.PlayOneMove();
+                var returnState = "";
+                Move serverMove = null;
 
                 if (playerState.CurrentGame.GameResult == 0)
-                    return new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.OK,
-                        Content = new StringContent(playerState.CurrentGame.ToString(), Encoding.UTF8, "text/plain")
-                    };
+                    serverMove = playerState.CurrentGame.PlayOneMove();
 
-                playerState.Stats.AddResult(playerState.CurrentGame.GameResult);
+                if (playerState.CurrentGame.GameResult == 0)
+                {
+                    returnState = playerState.CurrentGame.ToString();
+                    returnState += "," + serverMove;
+                }
+                else
+                {
+                    playerState.Stats.AddResult(playerState.CurrentGame.GameResult);
+
+                    returnState = playerState.CurrentGame.ToString();
+                    returnState += playerState.CurrentGame.GameResult.ToString(CultureInfo.InvariantCulture);
+
+                    if (serverMove != null)
+                        returnState += "," + serverMove;
+                }
 
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(playerState.CurrentGame.ToString() + playerState.CurrentGame.GameResult.ToString(CultureInfo.InvariantCulture), Encoding.UTF8, "text/plain")
+                    Content = new StringContent(returnState, Encoding.UTF8, "text/plain")
                 };
             }
             catch (Exception ex)

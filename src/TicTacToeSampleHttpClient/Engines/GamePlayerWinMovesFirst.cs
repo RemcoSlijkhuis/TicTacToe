@@ -45,6 +45,15 @@ namespace TicTacToeSampleHttpClient.Engines
                 using (var httpClient = new WebClient())
                 {
                     var game = httpClient.DownloadString(apiUrl + "startGame?playerId=" + HttpUtility.UrlEncode(playerId.ToString()));
+                    var gameInfo = game.Split(',');
+                    Move gameMove;
+
+                    game = gameInfo[0];
+
+                    if (gameInfo.Length == 2) //server did a move
+                    {
+                        gameMove = new Move(gameInfo[1]);
+                    }
 
                     while (game != "")
                     {
@@ -103,6 +112,21 @@ namespace TicTacToeSampleHttpClient.Engines
 
                         game = httpClient.DownloadString(apiUrl + string.Format("makeMove?boardColumn={0}&boardRow={1}&cellColumn={2}&cellRow={3}&playerId={4}",
                             currentMove.Item1, currentMove.Item2, currentMove.Item3, currentMove.Item4, playerId.ToString()));
+
+                        gameInfo = game.Split(',');
+                        game = gameInfo[0];
+
+                        if (gameInfo.Length == 2) //server did a move
+                        {
+                            gameMove = new Move(gameInfo[1]);
+                        }
+
+                        // If the length of game is 81, it only contains the game state.
+                        // If the length of game is 82, it contains the game state followed by the 'winner'.
+                        if (game.Length == 82)
+                        {
+                            game = game.Substring(81, 1);
+                        }
 
                         if (game.Equals("2", StringComparison.OrdinalIgnoreCase))
                         {
