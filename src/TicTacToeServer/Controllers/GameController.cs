@@ -35,14 +35,26 @@ namespace TicTacToeServer.Controllers
                     Content = new StringContent("Name cannot be empty", Encoding.UTF8, "text/plain")
                 };
 
+            GameStateHelper.AddRequest();
+
+            var existingPlayer = GameStateHelper.GetPlayerId(name);
+
+            if (existingPlayer != Guid.Empty)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(existingPlayer.ToString(), Encoding.UTF8, "text/plain")
+                };
+            }
+
             var playerId = Guid.NewGuid();
 
             while (GameStateHelper.Games.ContainsKey(playerId))
                 playerId = Guid.NewGuid();
 
             GameStateHelper.RegisterNewPlayer(playerId, name);
-            GameStateHelper.AddRequest();
-
+            
             return new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
