@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeServer", "TicTacTo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeSampleHttpClient", "TicTacToeSampleHttpClient\TicTacToeSampleHttpClient.csproj", "{116E02F9-DBB9-4988-92D8-96FBB9371187}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeBossEngine", "TicTacToeBossEngine\TicTacToeBossEngine.csproj", "{6F5ED64B-A3A5-4AE5-B6EF-3B001B29CA90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{116E02F9-DBB9-4988-92D8-96FBB9371187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{116E02F9-DBB9-4988-92D8-96FBB9371187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{116E02F9-DBB9-4988-92D8-96FBB9371187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F5ED64B-A3A5-4AE5-B6EF-3B001B29CA90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F5ED64B-A3A5-4AE5-B6EF-3B001B29CA90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F5ED64B-A3A5-4AE5-B6EF-3B001B29CA90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F5ED64B-A3A5-4AE5-B6EF-3B001B29CA90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
