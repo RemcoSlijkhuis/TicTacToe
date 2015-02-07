@@ -94,6 +94,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TicTacToeBossEngine\TicTacToeBossEngine.csproj">
+      <Project>{6f5ed64b-a3a5-4ae5-b6ef-3b001b29ca90}</Project>
+      <Name>TicTacToeBossEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TicTacToeSampleEngines\TicTacToeSampleEngines.csproj">
       <Project>{e984e1d7-7901-4949-9c9f-152cff7be21a}</Project>
       <Name>TicTacToeSampleEngines</Name>
