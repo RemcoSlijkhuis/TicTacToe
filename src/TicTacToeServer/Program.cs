@@ -12,31 +12,43 @@ using Owin;
 
 namespace TicTacToeServer
 {
-    class Program
+    public class Program
     {
         private static Timer statsTimer = new Timer(SaveStats, null, 1000, 30 * 1000);
         private static string currentFolder;
         private static string statsFolder;
-        
-        static void Main(string[] args)
-        {
-            Logger.Current.Info("Lucrasoft - TicTacToe server");
 
+        private static void PrepareStatsFolder()
+        {
             currentFolder = AppDomain.CurrentDomain.RelativeSearchPath ?? AppDomain.CurrentDomain.BaseDirectory;
             statsFolder = Path.Combine(currentFolder, "Stats");
 
             if (!Directory.Exists(statsFolder))
                 Directory.CreateDirectory(statsFolder);
+        }
 
+        private static StartOptions GetStartOptions()
+        {
             var serverPort = ConfigurationManager.AppSettings["ServerPort"];
             var url = "http://*:" + serverPort;
 
             var startOptions = new StartOptions { Port = Convert.ToInt32(serverPort) };
             startOptions.Urls.Add(url);
 
-            using (StartService(startOptions))
+            return startOptions;
+        }
+
+        static void Main(string[] args)
+        {
+            Logger.Current.Info("Lucrasoft - TicTacToe server");
+
+            PrepareStatsFolder();
+
+            var startOptions = GetStartOptions();
+            using (StartServer(startOptions))
             {
-                Logger.Current.Info("Server now accepting requests on: {0}", url);
+                //Logger.Current.Info("Server now accepting requests on: {0}", url);
+                Logger.Current.Info("Server now accepting requests on: {0}", startOptions.Urls.LastOrDefault());
                 Logger.Current.Info("Press q and enter to exit...");
 
                 while (true)
@@ -68,7 +80,7 @@ namespace TicTacToeServer
             return false;
         }
 
-        private static IDisposable StartService(StartOptions startOptions)
+        private static IDisposable StartServer(StartOptions startOptions)
         {
             var server = WebApp.Start(startOptions, builder =>
             {
@@ -101,5 +113,16 @@ namespace TicTacToeServer
                 File.WriteAllText(statsFile, stats, Encoding.UTF8);    
             }
         }
+
+        public static IDisposable StartServer()
+        {
+            Logger.Current.Info("Lucrasoft - TicTacToe server");
+
+            PrepareStatsFolder();
+
+            var startOptions = GetStartOptions();
+            return StartServer(startOptions);
+        }
+
     }
 }
